@@ -20,6 +20,7 @@ router.post('/pushNotification', function(req, res, next) {
     //res.send(req.body);
     var API_KEY = req.body.API_KEY;
     var ids = req.body.deviceIDs;
+    ids = JSON.parse(req.body.deviceIDs);
     var data = !req.body.data ? {} : req.body.data;
     
     var notif = new Notification(API_KEY);

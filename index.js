@@ -45,7 +45,7 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-var httpServer = http.Server(app).listen(3000, '0.0.0.0', function(err, res) {
+var httpServer = http.Server(app).listen(3001, '0.0.0.0', function(err, res) {
     console.log("server started");
 });
 

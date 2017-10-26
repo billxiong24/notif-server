@@ -2,11 +2,10 @@ var express = require('express');
 var router = express.Router();
 var Notification = require('../app/notification.js');
 var Message = require('../app/message.js');
-var gcm = require('node-gcm');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+    res.json("GET /");
 });
 
 /**
@@ -18,18 +17,18 @@ router.get('/', function(req, res, next) {
  * @param icon the icon to use for notification
  */
 router.post('/pushNotification', function(req, res, next) {
-    res.send(req.body);
-    //var API_KEY = req.body.API_KEY;
-    //var ids = req.body.deviceIDs;
-    //var data = !req.body.data ? {} : req.body.data;
+    //res.send(req.body);
+    var API_KEY = req.body.API_KEY;
+    var ids = req.body.deviceIDs;
+    var data = !req.body.data ? {} : req.body.data;
     
-    //var notif = new Notification(API_KEY);
+    var notif = new Notification(API_KEY);
 
-    //notif.push(ids, data, new Message({
-        //title : req.body.title,
-        //body: req.body.body,
-        //icon: req.body.icon
-    //}));
+    notif.push(ids, data, new Message({
+        title : req.body.title,
+        body: req.body.body,
+        icon: req.body.icon
+    }));
 });
 
 module.exports = router;

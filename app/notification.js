@@ -25,7 +25,15 @@ Notification.prototype.push = function(registerIds, data, messageObj) {
         data: data,
         notification: messageObj.toJSON()
     });
-};
 
+    this._sender.send(message, {
+        registrationTokens: registerIds
+    }, function(err, res) {
+        if(err)
+            throw err;
+        else
+            console.log("push successful");
+    });
+};
 
 module.exports = Notification;

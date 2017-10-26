@@ -28,7 +28,7 @@ router.post('/pushNotification', function(req, res, next) {
         title : req.body.title,
         body: req.body.body,
         icon: req.body.icon
-    }), 
+    }),
     function(err, response) {
         res.json("finished");
     });

@@ -15,9 +15,10 @@ function Notification(API_KEY) {
  * @param registerIds device ids to send notifications to
  * @param data the json object containing data
  * @param messageObj an object of type Message which contains contents of notifs
+ * @param callback the callback function
  */
 
-Notification.prototype.push = function(registerIds, data, messageObj) {
+Notification.prototype.push = function(registerIds, data, messageObj, callback) {
     var message = new gcm.Message({
         priority: 'high',
         delayWhileIdle: true,
@@ -33,6 +34,8 @@ Notification.prototype.push = function(registerIds, data, messageObj) {
             throw err;
         else
             console.log("push successful");
+
+        callback(err, res);
     });
 };
 

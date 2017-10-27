@@ -23,9 +23,7 @@ Notification.prototype.push = function(registerIds, data, messageObj, callback) 
         ar_message: "test message"
     };
 
-    send.call(this, {
-        registration_ids : registerIds
-    }, data, messageObj, callback);
+    send.call(this, registerIds, data, messageObj, callback);
 };
 
 Notification.prototype.pushSubscribe = function(subscribeName, data, messageObj, callback) {
@@ -35,13 +33,10 @@ Notification.prototype.pushSubscribe = function(subscribeName, data, messageObj,
 };
 
 function send(obj, data, messageObj, callback) {
-    var message = new gcm.Message({
-        priority: 'high',
-        delayWhileIdle: true,
-        contentAvailable: true,
-        data: data,
-        notification: messageObj.toJSON()
-    });
+    var message = {
+        registration_ids: obj,
+        data: data
+    };
 
     this._sender.send(message, {
         obj

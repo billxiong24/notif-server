@@ -27,7 +27,7 @@ router.post('/pushNotification', function(req, res, next) {
     console.log(ids);
     var notif = new Notification(API_KEY);
 
-    notif.pushSubscribe(topic, data, new Message({
+    notif.push(ids, data, new Message({
         title : req.body.title,
         body: req.body.body,
         icon: req.body.icon

@@ -1,4 +1,4 @@
-var gcm = require('node-gcm');
+var gcm = require('fcm-node');
 
 /**
  * Notification class to handle pushing notifications from server to client
@@ -6,7 +6,7 @@ var gcm = require('node-gcm');
  */
 
 function Notification(API_KEY) {
-    this._sender = new gcm.Sender(API_KEY);
+    this._sender = new gcm(API_KEY);
 }
 
 
@@ -19,16 +19,12 @@ function Notification(API_KEY) {
  */
 
 Notification.prototype.push = function(registerIds, data, messageObj, callback) {
-    var message = new gcm.Message({
-        priority: 'high',
-        delayWhileIdle: true,
-        contentAvailable: true,
-        data: data,
-        notification: messageObj.toJSON()
-    });
+    data = {
+        ar_message: "test message"
+    };
 
     send.call(this, {
-        registrationTokens: registerIds
+        registration_ids : registerIds
     }, data, messageObj, callback);
 };
 

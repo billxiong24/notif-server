@@ -38,9 +38,7 @@ function send(obj, data, messageObj, callback) {
         data: data
     };
 
-    this._sender.send(message, {
-        obj
-    }, function(err, res) {
+    this._sender.send(message, function(err, res) {
         if(err)
             throw err;
         else

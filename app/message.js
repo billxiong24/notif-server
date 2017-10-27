@@ -1,14 +1,14 @@
 /**
  * Message class to encapsulate contents of notification
  *
- * @param title the title of notification
- * @param body the body of notification
- * @param icon icon to show in notification
+ * @param jsonObj the JSON object containing message details. The JSON object
+ * should contain fields title, icon, body to populate the notification.
  */
-function Message(title, body, icon) {
-    this._title = title;
-    this._icon = icon;
-    this._body = body;
+function Message(jsonObj) {
+
+    this._title = jsonObj.title;
+    this._icon = jsonObj.icon;
+    this._body = jsonObj.body;
 }
 
 /**

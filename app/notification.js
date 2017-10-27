@@ -27,8 +27,28 @@ Notification.prototype.push = function(registerIds, data, messageObj, callback) 
         notification: messageObj.toJSON()
     });
 
-    this._sender.send(message, {
+    send.call(this, {
         registrationTokens: registerIds
+    }, data, messageObj, callback);
+};
+
+Notification.prototype.pushSubscribe = function(subscribeName, data, messageObj, callback) {
+    send.call(this, {
+        to : subscribeName
+    }, data, messageObj, callback);
+};
+
+function send(obj, data, messageObj, callback) {
+    var message = new gcm.Message({
+        priority: 'high',
+        delayWhileIdle: true,
+        contentAvailable: true,
+        data: data,
+        notification: messageObj.toJSON()
+    });
+
+    this._sender.send(message, {
+        obj
     }, function(err, res) {
         if(err)
             throw err;
@@ -37,6 +57,6 @@ Notification.prototype.push = function(registerIds, data, messageObj, callback) 
 
         callback(err, res);
     });
-};
+}
 
 module.exports = Notification;

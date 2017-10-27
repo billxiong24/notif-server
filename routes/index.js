@@ -21,12 +21,13 @@ router.post('/pushNotification', function(req, res, next) {
     var API_KEY = req.body.API_KEY;
     //var ids = req.body.deviceIDs;
     var ids = JSON.parse(req.body.deviceIDs);
+    var topic = req.body.topic;
     var data = !req.body.data ? {} : req.body.data;
     
     console.log(ids);
     var notif = new Notification(API_KEY);
 
-    notif.push(ids, data, new Message({
+    notif.pushSubscribe(topic, data, new Message({
         title : req.body.title,
         body: req.body.body,
         icon: req.body.icon

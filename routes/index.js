@@ -24,17 +24,28 @@ router.post('/pushNotification', function(req, res, next) {
     var topic = req.body.topic;
     var data = !req.body.data ? {} : req.body.data;
     
-    console.log(ids);
     var notif = new Notification(API_KEY);
 
-    notif.push(ids, data, new Message({
+    notif.pushRequest(topic, new Message({
         title : req.body.title,
         body: req.body.body,
         icon: req.body.icon
     }),
-    function(err, response) {
-        res.json("finished");
+    function(error, response, body) {
+        console.log(body);
+        console.log(response);
+        res.json(response);
     });
+
+    //notif.pushSubscribe(topic,  data, new Message({
+        //title : req.body.title,
+        //body: req.body.body,
+        //icon: req.body.icon
+    //}),
+    //function(response) {
+        //console.log(response);
+        //res.json(response);
+    //});
 });
 
 module.exports = router;

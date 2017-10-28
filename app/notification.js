@@ -1,4 +1,5 @@
 var gcm = require('fcm-node');
+var request = require('request');
 
 /**
  * Notification class to handle pushing notifications from server to client
@@ -6,7 +7,9 @@ var gcm = require('fcm-node');
  */
 
 function Notification(API_KEY) {
+    this._API_KEY = API_KEY;
     this._sender = new gcm(API_KEY);
+    this._FCM = require('fcm-push');
 }
 
 
@@ -27,9 +30,44 @@ Notification.prototype.push = function(registerIds, data, messageObj, callback) 
 };
 
 Notification.prototype.pushSubscribe = function(subscribeName, data, messageObj, callback) {
-    send.call(this, {
-        to : subscribeName
-    }, data, messageObj, callback);
+    var message = {
+        to: subscribeName, 
+        data: {
+            key1: 'key1'
+        }, 
+        notification: messageObj
+    };
+
+    this._FCM.send(message).then(function(response) {
+        callback(response);
+    })
+    .catch(function(err) {
+        console.error(err);
+    });
+};
+
+
+Notification.prototype.pushRequest = function(topic, messageObj, callback) {
+    var apikey = this._API_KEY;
+    request({
+        url: 'https://fcm.googleapis.com/fcm/send',
+        method: 'POST',
+        headers: {
+            'Content-Type' :' application/json',
+            'Authorization': 'key='+apikey
+        },
+        body: JSON.stringify({
+            notification: messageObj,
+            to : topic
+        })
+    }, function(error, response, body) {
+        if (error) { 
+            console.error(error); 
+            throw error;
+        }
+
+        callback(error, response, body);
+    }); 
 };
 
 function send(obj, data, messageObj, callback) {
